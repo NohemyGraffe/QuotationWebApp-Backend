@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Transportation = require('../models/Transportation');
+const { authenticateToken, authorizeRole } = require('../middleware/auth');
 
-// GET a single document (by type, for example)
-router.get('/', async (req, res) => {
+// GET a single document (by type, for example) - any authenticated user
+router.get('/', authenticateToken, async (req, res) => {
   try {
     const doc = await Transportation.findOne({ type: "transportationPricing" });
     res.json(doc);
@@ -12,8 +13,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET all documents
-router.get('/all', async (req, res) => {
+// GET all documents - any authenticated user
+router.get('/all', authenticateToken, async (req, res) => {
   try {
     const docs = await Transportation.find({});
     res.json(docs);
@@ -22,8 +23,8 @@ router.get('/all', async (req, res) => {
   }
 });
 
-// POST - Create a new document
-router.post('/', async (req, res) => {
+// POST - Create a new document - admin only
+router.post('/', authenticateToken, authorizeRole('admin'), async (req, res) => {
   const newData = req.body;
   const newTransportation = new Transportation(newData);
   try {
@@ -34,8 +35,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT - Update an existing document by ID
-router.put('/:id', async (req, res) => {
+// PUT - Update an existing document by ID - admin only
+router.put('/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
   try {
     const updatedDoc = await Transportation.findByIdAndUpdate(
       req.params.id,
@@ -49,8 +50,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE - Remove a document by ID
-router.delete('/:id', async (req, res) => {
+// DELETE - Remove a document by ID - admin only
+router.delete('/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
   try {
     const deletedDoc = await Transportation.findByIdAndDelete(req.params.id);
     if (!deletedDoc) return res.status(404).json({ message: 'Document not found' });
@@ -60,11 +61,10 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// Test route to verify routing
-router.get('/test', (req, res) => {
+// Test route to verify routing (accessible to any authenticated user)
+router.get('/test', authenticateToken, (req, res) => {
   console.log("Test route was hit");
   res.json({ message: "Test route working" });
 });
 
 module.exports = router;
-
