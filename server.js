@@ -5,6 +5,8 @@ const cors = require('cors');
 const toursRouter = require('./routes/tours');
 const transportationRouter = require('./routes/transportation');
 const Transportation = require('./models/Transportation'); // for the direct test query
+// server.js (add near your other route imports)
+const authRouter = require('./routes/auth');
 
 // Log the registered routes for debugging
 console.log("Registered routes:", transportationRouter.stack);
@@ -37,6 +39,7 @@ mongoose.connect(process.env.MONGODB_URI)
 // Routes
 app.use('/api/tours', toursRouter);
 app.use('/api/transportation', transportationRouter);
+app.use('/api/auth', authRouter);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
