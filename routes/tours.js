@@ -1,10 +1,10 @@
-// routes/tours.js
 const express = require('express');
 const router = express.Router();
 const Tour = require('../models/Tour');
+const { authenticateToken, authorizeRole } = require('../middleware/auth');
 
-// GET all tours
-router.get('/', async (req, res) => {
+// GET all tours - accessible to any logged-in user
+router.get('/', authenticateToken, async (req, res) => {
   try {
     const tours = await Tour.find({});
     res.json(tours);
@@ -13,8 +13,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST - Create a new tour
-router.post('/', async (req, res) => {
+// POST - Create a new tour - accessible only to admin users
+router.post('/', authenticateToken, authorizeRole('admin'), async (req, res) => {
   const newTour = new Tour(req.body);
   try {
     const savedTour = await newTour.save();
@@ -24,8 +24,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT - Update a tour by ID
-router.put('/:id', async (req, res) => {
+// PUT - Update a tour by ID - accessible only to admin users
+router.put('/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
   try {
     const updatedTour = await Tour.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedTour) return res.status(404).json({ message: 'Tour not found' });
@@ -35,8 +35,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE - Remove a tour by ID
-router.delete('/:id', async (req, res) => {
+// DELETE - Remove a tour by ID - accessible only to admin users
+router.delete('/:id', authenticateToken, authorizeRole('admin'), async (req, res) => {
   try {
     const deletedTour = await Tour.findByIdAndDelete(req.params.id);
     if (!deletedTour) return res.status(404).json({ message: 'Tour not found' });
