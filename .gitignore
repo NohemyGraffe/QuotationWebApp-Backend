@@ -1,0 +1,11 @@
+# Node modules
+node_modules/
+
+# Environment variables file (contains sensitive data)
+.env
+
+# Logs
+*.log
+
+# Temporary files (optional)
+*.tmp
