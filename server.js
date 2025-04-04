@@ -2,10 +2,18 @@ require('dotenv').config();
  const express = require('express');
  const mongoose = require('mongoose');
  const cors = require('cors');
- const toursRouter = require('./routes/tours');
- const transportationRouter = require('./routes/transportation');
- const Transportation = require('./models/Transportation'); // for the direct test query
- 
+
+const toursRouter = require('./routes/tours');
+const toursRouterCartagena = require('./routes/tourscartagena');
+const toursRouterBogota = require('./routes/toursbogota');
+const toursRouterEjeCafetero = require('./routes/toursejecafetero');
+
+const transportationRouter = require('./routes/transportation');
+const transportationRouterBogota = require('./routes/transportationcartagena');
+const transportationRouterCartagena = require('./routes/transportationbogota');
+const transportationRouterEjeCafetero = require('./routes/transportationejecafetero');
+
+
  // Log the registered routes for debugging
  console.log("Registered routes:", transportationRouter.stack);
  
@@ -36,8 +44,16 @@ require('dotenv').config();
  
  // Routes
  app.use('/api/tours', toursRouter);
+ app.use('/api/toursbogota', toursRouterBogota);
+ app.use('/api/tourscartagena', toursRouterCartagena);
+ app.use('/api/toursejecafetero', toursRouterEjeCafetero);
+
  app.use('/api/transportation', transportationRouter);
- 
+ app.use('/api/transportationbogota', transportationRouterBogota);
+ app.use('/api/transportationcartagena', transportationRouterCartagena);
+ app.use('/api/transportationejecafetero', transportationRouterEjeCafetero);
+
+
  // Start the server
  const PORT = process.env.PORT || 3000;
  app.listen(PORT, () => {
