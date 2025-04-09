@@ -9,8 +9,8 @@ const toursRouterBogota = require('./routes/toursbogota');
 const toursRouterEjeCafetero = require('./routes/toursejecafetero');
 
 const transportationRouter = require('./routes/transportation');
-const transportationRouterBogota = require('./routes/transportationcartagena');
-const transportationRouterCartagena = require('./routes/transportationbogota');
+const transportationRouterBogota = require('./routes/transportationbogota');
+const transportationRouterCartagena = require('./routes/transportationcartagena');
 const transportationRouterEjeCafetero = require('./routes/transportationejecafetero');
 
 
