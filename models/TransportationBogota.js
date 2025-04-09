@@ -1,4 +1,4 @@
-// models/Transportation.js
+// models/TransportationBogota.js
 const mongoose = require('mongoose');
 
 const TransportationSchema = new mongoose.Schema({
