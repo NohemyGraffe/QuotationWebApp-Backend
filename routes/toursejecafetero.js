@@ -1,13 +1,13 @@
 // routes/tours.js
  const express = require('express');
  const router = express.Router();
- const Tour = require('../models/TourEjeCafetero.js');
+ const Tour = require('../models/TourEjeCafetero');
  
  // GET all tours
  router.get('/', async (req, res) => {
    try {
      const tours = await Tour.find({});
-     res.json(toursejecafetero);
+     res.json(tours);
    } catch (err) {
      res.status(500).json({ message: err.message });
    }
