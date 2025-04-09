@@ -7,4 +7,4 @@ const TourSchema = new mongoose.Schema({
   ventaUsd: { type: Number, required: true }
 });
 
-module.exports = mongoose.model('TourCartagena', TourSchema);
+module.exports = mongoose.model('TourCartagena', TourSchema, 'toursCartagena');
