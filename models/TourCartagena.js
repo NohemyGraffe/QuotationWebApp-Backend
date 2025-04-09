@@ -1,4 +1,4 @@
-// models/Tour.js
+// models/TourCartagena.js
 const mongoose = require('mongoose');
 
 const TourSchema = new mongoose.Schema({
