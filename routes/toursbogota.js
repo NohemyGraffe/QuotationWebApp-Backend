@@ -1,4 +1,4 @@
-// routes/tours.js
+// routes/toursbogota.js
  const express = require('express');
  const router = express.Router();
  const Tour = require('../models/TourBogota.js');
