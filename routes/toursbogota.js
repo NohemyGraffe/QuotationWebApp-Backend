@@ -1,18 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const Tour = require('../models/TourBogota');  // Correct import (no need for the .js extension)
+const Tour = require('../models/TourBogota');  // Ensure the model includes your new fields
 
 // GET all tours (Bogotá)
 router.get('/', async (req, res) => {
   try {
     const tours = await Tour.find({});
-    res.json(tours); // Return the correct variable
+    res.json(tours);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// POST - Create a new tour
+// GET a single tour by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const tour = await Tour.findById(req.params.id);
+    if (!tour) return res.status(404).json({ message: 'Tour not found' });
+    res.json(tour);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// POST - Create a new tour (including transportation pricing arrays)
 router.post('/', async (req, res) => {
   const newTour = new Tour(req.body);
   try {
@@ -26,7 +37,11 @@ router.post('/', async (req, res) => {
 // PUT - Update a tour by ID
 router.put('/:id', async (req, res) => {
   try {
-    const updatedTour = await Tour.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedTour = await Tour.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
     if (!updatedTour) return res.status(404).json({ message: 'Tour not found' });
     res.json(updatedTour);
   } catch (err) {
