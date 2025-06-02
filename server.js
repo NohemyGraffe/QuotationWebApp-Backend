@@ -13,14 +13,7 @@ const transportationRouterBogota = require('./routes/transportationbogota');
 const transportationRouterCartagena = require('./routes/transportationcartagena');
 const transportationRouterEjeCafetero = require('./routes/transportationejecafetero');
 
-
- // Log the registered routes for debugging
- console.log("Registered routes:", transportationRouter.stack);
- 
  const app = express();
- 
- // Log the connection string (mask the password if needed)
- console.log("Using connection string:", process.env.MONGODB_URI);
  
  // Middleware
  app.use(cors());
@@ -31,16 +24,6 @@ const transportationRouterEjeCafetero = require('./routes/transportationejecafet
    .then(() => {
      console.log('MongoDB connected');
  
-     // Direct test query: try to fetch any document from the "transportations" collection
-     Transportation.findOne({})
-       .then(doc => {
-         console.log("Direct test query result:", doc);
-       })
-       .catch(err => {
-         console.error("Error during direct test query:", err);
-       });
-   })
-   .catch(err => console.error('MongoDB connection error:', err));
  
  // Routes
  app.use('/api/tours', toursRouter);
